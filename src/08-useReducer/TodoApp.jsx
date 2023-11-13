@@ -6,26 +6,32 @@ import { TodoAdd } from "./TodoAdd";
 const initialState = [];
 
 const init = () => {
-  return JSON.parse(localStorage.getItem('todos')) || [];
-}
+  return JSON.parse(localStorage.getItem("todos")) || [];
+};
 
 export const TodoApp = () => {
   const [todos, dispatch] = useReducer(todoReducer, initialState, init);
 
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos])
-  
-
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const handleNewTodo = (todo) => {
     const action = {
-      type: '[TODO] add Todo',
-      payload: todo
-    }
+      type: "[TODO] add Todo",
+      payload: todo,
+    };
 
     dispatch(action);
-    
+  };
+
+  const handleDeleteTodo = (id) => {
+    const action = {
+      type: "[TODO] remove Todo",
+      payload: id,
+    };
+
+    dispatch(action);
   };
 
   return (
@@ -37,7 +43,7 @@ export const TodoApp = () => {
 
       <div className="row">
         <div className="col-7">
-          <TodoList todos={todos} />
+          <TodoList todos={todos} onDeleteTodo={ handleDeleteTodo }/>
         </div>
         <div className="col-5">
           <h4>Agregar TODO</h4>
